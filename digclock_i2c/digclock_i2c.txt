@@ -1,0 +1,5 @@
+DigClockI2C
+05-22-2025
+- Making a digital clock using the OLED screen.
+- In LCD version, I used a button to change the time.
+- But NOW, I could probably use BLE or WiFi to change the time.
