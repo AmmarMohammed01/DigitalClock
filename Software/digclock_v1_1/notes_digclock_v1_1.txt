@@ -1,0 +1,14 @@
+May 22, 2025
+I currently have I2C digclock code.
+- Displays time
+
+I was wondering if I could use BLE and RTOS to change the time.
+
+RTOS: CE4370 Lab 2 - Polls and Interrupts
+BLE: " Lab 8
+
+RTOS uses xTaskCreate and vTaskDelay.
+- Perhaps one task to display the time.
+- Another task to accept messages from BLE?
+
+There wasn't a need to use RTOS, it worked with just BLE!
