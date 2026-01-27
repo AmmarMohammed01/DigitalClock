@@ -30,26 +30,11 @@ class MyCallbacks : public BLECharacteristicCallbacks {
     String value = pCharacteristic->getValue();
 
     if (value.length() > 0) {
-      // Serial.println("*********");
-      // Serial.print("New value: ");
       for (int i = 0; i < value.length(); i++) {
         Serial.print(value[i]);
         timeFormat[i] = value[i] - '0';
       }
 
-      /*
-      if(value == "1") {
-        //digitalWrite(CONTROL_PIN, HIGH);
-        Serial.println(" --> LED ON");
-      }
-      else {
-        //digitalWrite(CONTROL_PIN, LOW);
-        Serial.println(" --> LED OFF");
-      }
-      */
-
-      // Serial.println();
-      // Serial.println("*********");
     }
   }
 };
@@ -127,11 +112,13 @@ void displayTime(void)
     timeStr += meridiem[0]; 
     timeStr += meridiem[1];
 
+    /*
     //DEV TESTING CODE
     Serial.print(timeStr);
     Serial.print(timeFormat[1]);
     Serial.println(timeFormat[0]);
     //END TESTING CODE
+    */
 
     display.clearDisplay();
     display.setCursor(0,31);
