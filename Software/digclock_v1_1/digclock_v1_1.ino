@@ -39,13 +39,13 @@ class MyCallbacks : public BLECharacteristicCallbacks {
   }
 };
 
-// Name of Bluetooth Device: BlueLEDWrite
+// Name of Bluetooth Device: Digital Clock
 void setup()
 {
   Serial.begin(115200);
 
   //BLE Setup
-  BLEDevice::init("BlueLEDWrite");
+  BLEDevice::init("Digital Clock");
   BLEServer *pServer = BLEDevice::createServer();
 
   BLEService *pService = pServer->createService(SERVICE_UUID);
