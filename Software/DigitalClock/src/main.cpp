@@ -1,6 +1,7 @@
 // Tools > BOARD: Select "ESP32 Dev Module", 115200 Baud Rate
 // Tools > Upload Speed, 115200
 
+#include <Arduino.h> //1. Add for PlatformIO
 #include <SPI.h>
 #include <Wire.h>
 #include <Adafruit_GFX.h>
@@ -20,6 +21,8 @@
 #define SCREEN_ADDRESS 0x3C ///< See datasheet for Address; 0x3D for 128x64, 0x3C for 128x32
 Adafruit_SSD1306 display(SCREEN_WIDTH, SCREEN_HEIGHT, &Wire, OLED_RESET);
 
+void displayTime(void); //2. Add function declarations for PlatformIO
+
 int timeFormat[7] = {0, 0, 0, 0, 2, 1, 1}; //{Seconds 2nd digit, Seconds 1st digit, Minutes 2, Minutes 1, Hours 2, Hours 1, isAM}
 
 // Connect to Bluetooth device, use LightBlue to "write" a value to device.
@@ -27,7 +30,7 @@ int timeFormat[7] = {0, 0, 0, 0, 2, 1, 1}; //{Seconds 2nd digit, Seconds 1st dig
 // Example: To set time to 5:54pm, type 0045500 
 class MyCallbacks : public BLECharacteristicCallbacks {
   void onWrite(BLECharacteristic *pCharacteristic) {
-    String value = pCharacteristic->getValue();
+    String value = pCharacteristic->getValue().c_str();
 
     if (value.length() > 0) {
       for (int i = 0; i < value.length(); i++) {
