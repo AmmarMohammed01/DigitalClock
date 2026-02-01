@@ -14,7 +14,10 @@ class MyTime
     int secondDigit2;
     int isPM; //AM = 0, PM = 1
   public:
+    MyTime();
+
     string toString();
+    string printSeconds(); //debugging code
     void incrementTime();
 };
 

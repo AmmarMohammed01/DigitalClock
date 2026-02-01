@@ -15,19 +15,24 @@
 Adafruit_SSD1306 display(SCREEN_WIDTH, SCREEN_HEIGHT, &Wire, OLED_RESET);
 
 //Bluetooth
+/*
 #include <BLEDevice.h>
 #include <BLEUtils.h>
 #include <BLEServer.h>
 #define SERVICE_UUID        "4fafc201-1fb5-459e-8fcc-c5c9c331914b"
 #define CHARACTERISTIC_UUID "beb5483e-36e1-4688-b7f5-ea07361b26a8"
+*/
 
 //myTime
 #include "myTime.h"
 
 void displayTime(void); //2. Add function declarations for PlatformIO
 
-int timeFormat[7] = {0, 0, 0, 0, 2, 1, 1}; //{Seconds 2nd digit, Seconds 1st digit, Minutes 2, Minutes 1, Hours 2, Hours 1, isAM}
+//int timeFormat[7] = {0, 0, 0, 0, 2, 1, 1}; //{Seconds 2nd digit, Seconds 1st digit, Minutes 2, Minutes 1, Hours 2, Hours 1, isAM}
+MyTime currentTime;
+string timeStr = currentTime.toString();
 
+/*
 // Connect to Bluetooth device, use LightBlue to "write" a value to device.
 // Format of Input Sent via Bluetooth: initially sent as UTF-8 String Value, converted to timeFormat[].
 // Example: To set time to 5:54pm, type 0045500 
@@ -44,12 +49,14 @@ class MyCallbacks : public BLECharacteristicCallbacks {
     }
   }
 };
+*/
 
 // Name of Bluetooth Device: Digital Clock
 void setup()
 {
   Serial.begin(115200);
 
+  /*
   //BLE Setup
   BLEDevice::init("Digital Clock");
   BLEServer *pServer = BLEDevice::createServer();
@@ -66,6 +73,7 @@ void setup()
 
   BLEAdvertising *pAdvertising = pServer->getAdvertising();
   pAdvertising->start();
+  */
 
   //DISPLAY SETUP
   // SSD1306_SWITCHCAPVCC = generate display voltage from 3.3V internally
@@ -84,119 +92,29 @@ void setup()
   display.cp437(true); //Code Page 437 font
 
   displayTime();
-
 }
 
 void loop(){}
 
+//runs forever
 void displayTime(void) 
 {
   for(;;) {
-    char meridiem[3];
-    
-    if(timeFormat[6] == 1) {
-      meridiem[0] = 'A';
-    }
-    else {
-      meridiem[0] = 'P';
-    }
-    meridiem[1] = 'M';
-    
-    String timeStr = "";
-    timeStr += timeFormat[5];
-    timeStr += timeFormat[4];
+    timeStr = currentTime.toString();
 
-    if(timeFormat[0] % 2 == 1)
-    {
-      timeStr += ':';
-    }
-    else {
-      timeStr += ' ';
-    }
-    timeStr += timeFormat[3];
-    timeStr += timeFormat[2];
-    timeStr += meridiem[0]; 
-    timeStr += meridiem[1];
-
+    //DEBUGGING CODE
     /*
-    //DEV TESTING CODE
-    Serial.print(timeStr);
-    Serial.print(timeFormat[1]);
-    Serial.println(timeFormat[0]);
-    //END TESTING CODE
-    */
+    Serial.print(timeStr.c_str());
+    Serial.print(currentTime.printSeconds().c_str());
+    Serial.println();
+    */ 
 
     display.clearDisplay();
     display.setCursor(0,31);
-    display.print(timeStr);
+    display.print(timeStr.c_str()); //Adafruit_SSD1306::print does not take argument std::__cxx11::string, converted it to c_string
     display.display();
     delay(1000);
 
-    if(timeFormat[0] == 9) {
-      timeFormat[0] = 0;
-      timeFormat[1] += 1;
-    }
-    else {
-      timeFormat[0] += 1;
-    }
-    
-    //12:59:59 switch to 01:00:00
-    if(timeFormat[5] == 1 && timeFormat[4] == 2 && timeFormat[3] == 5 && timeFormat[2] == 9 && timeFormat[1] == 5 && timeFormat[0] == 9) {
-      timeFormat[0] = 0;
-      timeFormat[1] = 0;
-      timeFormat[2] = 0;
-      timeFormat[3] = 0;
-      timeFormat[4] = 1;
-      timeFormat[5] = 0;
-    }
-    
-    //11:59:59 switch AM-PM
-    if(timeFormat[5] == 1 && timeFormat[4] == 1 && timeFormat[3] == 5 && timeFormat[2] == 9 && timeFormat[1] == 5 && timeFormat[0] == 9) {
-      timeFormat[0] = 0;
-      timeFormat[1] = 0;
-      timeFormat[2] = 0;
-      timeFormat[3] = 0;
-      timeFormat[4] = 2;
-      timeFormat[5] = 1;
-      
-      //1 = AM, 0 = PM
-      if(timeFormat[6] == 1) {
-        timeFormat[6] = 0;
-      }
-      else {
-        timeFormat[6] = 1;
-      }
-    }
-    
-    //09:59:59 to 10:00:00
-    if(timeFormat[4] == 9 && timeFormat[3] == 5 && timeFormat[2] == 9 && timeFormat[1] == 5 && timeFormat[0] == 9) {
-      timeFormat[0] = 0;
-      timeFormat[1] = 0;
-      timeFormat[2] = 0;
-      timeFormat[3] = 0;
-      timeFormat[4] = 0;
-      timeFormat[5] += 1;
-    }
-    
-    if(timeFormat[3] == 5 && timeFormat[2] == 9 && timeFormat[1] == 5 && timeFormat[0] == 9) {
-      timeFormat[0] = 0;
-      timeFormat[1] = 0;
-      timeFormat[2] = 0;
-      timeFormat[3] = 0;
-      timeFormat[4] += 1;
-    }
-    
-    if(timeFormat[2] == 9 && timeFormat[1] == 6 && timeFormat[0] == 0) {
-      timeFormat[0] = 0;
-      timeFormat[1] = 0;
-      timeFormat[2] = 0;
-      timeFormat[3] += 1;
-    }
-    
-    if(timeFormat[1] == 6 && timeFormat[0] == 0) {
-      timeFormat[0] = 0;
-      timeFormat[1] = 0;
-      timeFormat[2] += 1;
-    }
+    currentTime.incrementTime();
   }
 }
