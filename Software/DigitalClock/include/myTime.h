@@ -1,0 +1,21 @@
+#ifndef MYTIME_H
+#define MYTIME_H
+#include <string> //what is the difference between C_11 string and Arduino String classes?
+using namespace std;
+
+class MyTime
+{
+  private:
+    int hourDigit1;
+    int hourDigit2;
+    int minuteDigit1;
+    int minuteDigit2;
+    int secondDigit1;
+    int secondDigit2;
+    int isPM; //AM = 0, PM = 1
+  public:
+    string toString();
+    void incrementTime();
+};
+
+#endif
