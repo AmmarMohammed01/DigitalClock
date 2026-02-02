@@ -26,7 +26,7 @@ Adafruit_SSD1306 display(SCREEN_WIDTH, SCREEN_HEIGHT, &Wire, OLED_RESET);
 
 void displayTime(void); //2. Add function declarations for PlatformIO
 
-MyTime currentTime;
+MyTime currentTime; //Default constructor called
 string timeStr = currentTime.toString();
 
 // Name of Bluetooth Device: Digital Clock
@@ -88,6 +88,13 @@ void displayTime(void)
   for(;;) {
     timeStr = currentTime.toString();
 
+    /*
+    //DEBUGGING CODE
+    Serial.print(timeStr.c_str());
+    Serial.print(currentTime.printSeconds().c_str());
+    Serial.println();
+    */
+   
     display.clearDisplay();
     display.setCursor(0,31);
     display.print(timeStr.c_str()); //Adafruit_SSD1306::print does not take argument std::__cxx11::string, converted it to c_string

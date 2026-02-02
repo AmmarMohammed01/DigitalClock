@@ -67,9 +67,8 @@ void MyTime::incrementTime()
     secondDigit2 += 1;
   }
   
-  //CHECK IF THIS IS CORRECT, doesn't follow same logic as the wx:yz:60
   //12:59:59 switch to 01:00:00
-  if(hourDigit1 == 1 && hourDigit2 == 2 && minuteDigit1 == 5 && minuteDigit2 == 9 && secondDigit1 == 5 && secondDigit2 == 9) {
+  if(hourDigit1 == 1 && hourDigit2 == 2 && minuteDigit1 == 5 && minuteDigit2 == 9 && secondDigit1 == 6 && secondDigit2 == 0) {
     secondDigit2 = 0;
     secondDigit1 = 0;
     minuteDigit2 = 0;
@@ -78,9 +77,8 @@ void MyTime::incrementTime()
     hourDigit1 = 0;
   }
   
-  //CHECK IF THIS IS CORRECT, doesn't follow same logic as the wx:yz:60
-  //11:59:59 switch AM-PM
-  if(hourDigit1 == 1 && hourDigit2 == 1 && minuteDigit1 == 5 && minuteDigit2 == 9 && secondDigit1 == 5 && secondDigit2 == 9) {
+  //11:59:59 switch AM-PM & PM-AM
+  if(hourDigit1 == 1 && hourDigit2 == 1 && minuteDigit1 == 5 && minuteDigit2 == 9 && secondDigit1 == 6 && secondDigit2 == 0) {
     secondDigit2 = 0;
     secondDigit1 = 0;
     minuteDigit2 = 0;
@@ -97,9 +95,8 @@ void MyTime::incrementTime()
     }
   }
   
-  //CHECK IF THIS IS CORRECT, doesn't follow same logic as the wx:yz:60
   //09:59:59 to 10:00:00
-  if(hourDigit2 == 9 && minuteDigit1 == 5 && minuteDigit2 == 9 && secondDigit1 == 5 && secondDigit2 == 9) {
+  if(hourDigit2 == 9 && minuteDigit1 == 5 && minuteDigit2 == 9 && secondDigit1 == 6 && secondDigit2 == 0) {
     secondDigit2 = 0;
     secondDigit1 = 0;
     minuteDigit2 = 0;
@@ -108,9 +105,8 @@ void MyTime::incrementTime()
     hourDigit1 += 1;
   }
   
-  //CHECK IF THIS IS CORRECT, doesn't follow same logic as the wx:yz:60
   //wx:59:59 -> w(x+1):00:00
-  if(minuteDigit1 == 5 && minuteDigit2 == 9 && secondDigit1 == 5 && secondDigit2 == 9) {
+  if(minuteDigit1 == 5 && minuteDigit2 == 9 && secondDigit1 == 6 && secondDigit2 == 0) {
     secondDigit2 = 0;
     secondDigit1 = 0;
     minuteDigit2 = 0;
