@@ -14,11 +14,13 @@ class MyTime
     int secondDigit2;
     int isPM; //AM = 0, PM = 1
   public:
-    MyTime();
+    MyTime(); //default constructor
 
     string toString();
     string printSeconds(); //debugging code
     void incrementTime();
+
+    void setTime(int newHourDigit1, int newHourDigit2, int newMinuteDigit1, int newMinuteDigit2, int newSecondDigit1, int newSecondDigit2, int newIsPM);
 };
 
 #endif

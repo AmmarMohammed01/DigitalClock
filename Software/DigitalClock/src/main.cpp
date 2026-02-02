@@ -15,65 +15,51 @@
 Adafruit_SSD1306 display(SCREEN_WIDTH, SCREEN_HEIGHT, &Wire, OLED_RESET);
 
 //Bluetooth
-/*
 #include <BLEDevice.h>
 #include <BLEUtils.h>
 #include <BLEServer.h>
 #define SERVICE_UUID        "4fafc201-1fb5-459e-8fcc-c5c9c331914b"
 #define CHARACTERISTIC_UUID "beb5483e-36e1-4688-b7f5-ea07361b26a8"
-*/
 
 //myTime
 #include "myTime.h"
 
 void displayTime(void); //2. Add function declarations for PlatformIO
 
-//int timeFormat[7] = {0, 0, 0, 0, 2, 1, 1}; //{Seconds 2nd digit, Seconds 1st digit, Minutes 2, Minutes 1, Hours 2, Hours 1, isAM}
 MyTime currentTime;
 string timeStr = currentTime.toString();
 
-/*
-// Connect to Bluetooth device, use LightBlue to "write" a value to device.
-// Format of Input Sent via Bluetooth: initially sent as UTF-8 String Value, converted to timeFormat[].
-// Example: To set time to 5:54pm, type 0045500 
+// Name of Bluetooth Device: Digital Clock
+// Connect to Bluetooth device, use LightBlue app to "write" a value to device.
+// Format of Input Sent via Bluetooth: initially sent as UTF-8 String Value
+// Example To set time to 8:05pm, type 0805001 --> (hours 08: minutes 05 : seconds 00 : isPM 1)
+// INPUT FORMAT: HHMMSSI
 class MyCallbacks : public BLECharacteristicCallbacks {
   void onWrite(BLECharacteristic *pCharacteristic) {
     String value = pCharacteristic->getValue().c_str();
 
     if (value.length() > 0) {
-      for (int i = 0; i < value.length(); i++) {
-        Serial.print(value[i]);
-        timeFormat[i] = value[i] - '0';
-      }
-
+      currentTime.setTime(value[0] - '0', value[1] - '0', value[2] - '0', value[3] - '0', value[4] - '0', value[5] - '0', value[6] - '0');
     }
   }
 };
-*/
 
-// Name of Bluetooth Device: Digital Clock
 void setup()
 {
   Serial.begin(115200);
 
-  /*
   //BLE Setup
   BLEDevice::init("Digital Clock");
   BLEServer *pServer = BLEDevice::createServer();
-
   BLEService *pService = pServer->createService(SERVICE_UUID);
-
   BLECharacteristic *pCharacteristic =
     pService->createCharacteristic(CHARACTERISTIC_UUID, BLECharacteristic::PROPERTY_READ | BLECharacteristic::PROPERTY_WRITE);
-
   pCharacteristic->setCallbacks(new MyCallbacks());
-
   pCharacteristic->setValue("Hello from AHM ESP32 via BLE");
   pService->start();
 
   BLEAdvertising *pAdvertising = pServer->getAdvertising();
   pAdvertising->start();
-  */
 
   //DISPLAY SETUP
   // SSD1306_SWITCHCAPVCC = generate display voltage from 3.3V internally
@@ -101,13 +87,6 @@ void displayTime(void)
 {
   for(;;) {
     timeStr = currentTime.toString();
-
-    //DEBUGGING CODE
-    /*
-    Serial.print(timeStr.c_str());
-    Serial.print(currentTime.printSeconds().c_str());
-    Serial.println();
-    */ 
 
     display.clearDisplay();
     display.setCursor(0,31);

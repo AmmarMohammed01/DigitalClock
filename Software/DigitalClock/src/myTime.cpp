@@ -134,3 +134,16 @@ void MyTime::incrementTime()
   }
 } //end of MyTime::incrementTime()
 
+void MyTime::setTime(int newHourDigit1, int newHourDigit2, 
+  int newMinuteDigit1, int newMinuteDigit2,
+  int newSecondDigit1, int newSecondDigit2, 
+  int newIsPM)
+{
+  hourDigit1 = newHourDigit1;
+  hourDigit2 = newHourDigit2;
+  minuteDigit1 = newMinuteDigit1;
+  minuteDigit2 = newMinuteDigit2;
+  secondDigit1 = newSecondDigit1;
+  secondDigit2 = newSecondDigit2;
+  isPM = newIsPM;
+}
