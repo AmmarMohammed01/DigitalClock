@@ -21,8 +21,9 @@ Adafruit_SSD1306 display(SCREEN_WIDTH, SCREEN_HEIGHT, &Wire, OLED_RESET);
 #define SERVICE_UUID        "4fafc201-1fb5-459e-8fcc-c5c9c331914b"
 #define CHARACTERISTIC_UUID "beb5483e-36e1-4688-b7f5-ea07361b26a8"
 
-//myTime
+//My Code
 #include "myTime.h"
+#include "buttonInterface.h"
 
 void displayTime(void); //2. Add function declarations for PlatformIO
 
@@ -60,6 +61,11 @@ void setup()
 
   BLEAdvertising *pAdvertising = pServer->getAdvertising();
   pAdvertising->start();
+
+  //Button Interface
+  pinMode(buttonOnePin, INPUT);
+  pinMode(buttonTwoPin, INPUT);
+  //attachInterrupt()
 
   //DISPLAY SETUP
   // SSD1306_SWITCHCAPVCC = generate display voltage from 3.3V internally
